@@ -18,23 +18,23 @@ class Local
     private $id;
 
     /**
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="string")
      */
-    private $instruments = [];
+    private $name = [];
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getInstruments(): ?array
+    public function getName(): ?string
     {
-        return $this->instruments;
+        return $this->name;
     }
 
-    public function setInstruments(array $instruments): self
+    public function setName(string $name): self
     {
-        $this->instruments = $instruments;
+        $this->name = $name;
 
         return $this;
     }
