@@ -38,12 +38,12 @@ class Instrument
         return $this->id;
     }
 
-    public function getInstrument(): ?string
+    public function getName(): ?string
     {
         return $this->instrument;
     }
 
-    public function setInstrument(string $instrument): self
+    public function setName(string $instrument): self
     {
         $this->instrument = $instrument;
 

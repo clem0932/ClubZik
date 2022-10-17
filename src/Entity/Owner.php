@@ -27,12 +27,12 @@ class Owner
         return $this->id;
     }
 
-    public function getNom(): ?string
+    public function getName(): ?string
     {
         return $this->nom;
     }
 
-    public function setNom(string $nom): self
+    public function setName(string $nom): self
     {
         $this->nom = $nom;
 
