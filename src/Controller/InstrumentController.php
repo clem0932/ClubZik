@@ -80,7 +80,7 @@ class InstrumentController extends AbstractController
         $entityManager= $doctrine->getManager();
         $instruments = $entityManager->getRepository(Instrument::class)->findAll();
         foreach($instruments as $instrument) {
-            if ($instrument->getId() == $_GET['id']) {
+            if (isset($_GET['id']) && $instrument->getId() == $_GET['id']) {
                 $htmlpage .= '<p>'.$instrument->getName().' ; '.$instrument->getLieu()->getName().' ; '.$instrument->getOwner()->getName().'</p>';
             }
          }
