@@ -8,6 +8,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Instrument;
 use App\Entity\Local;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Repository\InstrumentRepository;
+use App\Form\InstrumentType;
+use Symfony\Component\HttpFoundation\Request;
 
 class InstrumentController extends AbstractController
 {
@@ -40,35 +43,35 @@ class InstrumentController extends AbstractController
     /**
      * Finds and displays a todo entity.
      *
-     * @Route("/instrument", name="instrument_show", requirements={ "id": "\d+"}, methods="GET")
+     * @Route("/{id}", name="instrument_show", requirements={ "id": "\d+"}, methods="GET")
      */
-    public function showAction(ManagerRegistry $doctrine)
+    public function showAction(Instrument $instrument): Response
     {
-        $htmlpage = '<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Instruments list!</title>
-    </head>
-    <body>
-        <h1>Instrument</h1>
-        <p>Here are your Instrument:</p>
-        <ul>';
-        
-        $entityManager= $doctrine->getManager();
-        $instruments = $entityManager->getRepository(Instrument::class)->findAll();
-        foreach($instruments as $instrument) {
-            if (isset($_GET['id']) && $instrument->getId() == $_GET['id']) {
-                $htmlpage .= '<p>'.$instrument->getName().' ; '.$instrument->getLieu()->getName().' ; '.$instrument->getOwner()->getName().'</p>';
-            }
-         }
-        $htmlpage .= '<a href="/list">Retour</a>';
-        $htmlpage .= '</body></html>';
-        
-        return new Response(
-            $htmlpage,
-            Response::HTTP_OK,
-            array('content-type' => 'text/html')
-            );
+        return $this->render('instrument/show.html.twig',
+     [ 'instrument' => $instrument ]
+     );
+    }
+
+
+    /**
+     * @Route("/new", name="instrument_new", methods={"GET", "POST"})
+     */
+    public function new(Request $request, InstrumentRepository $instrumentRepository): Response
+    {
+        $instrument = new Instrument();
+        $form = $this->createForm(InstrumentType::class, $instrument);
+        $form->handleRequest($request); 
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $instrumentRepository->add($instrument, true);
+
+            $this->addFlash('message', 'bien ajouté !');
+            return $this->redirectToRoute('instrument_list', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('instrument/new.html.twig', [
+            'instrument' => $instrument,
+            'form' => $form,
+        ]);
     }
 }

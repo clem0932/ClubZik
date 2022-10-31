@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+
+{% block main %}
+	<div class="form-horizontal">
+
+		<div class="form-group row">
+			<label class="col-sm-2 col-form-label">Id</label>
+			<div class="col-sm-10">
+				<div class="form-control form-control-plaintext">
+					{{ instrument.getId }}
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-2 col-form-label-lg">Name</label>
+			<div class="col-sm-10">
+				<div class="form-control form-control-plaintext form-control-lg">
+					{{ instrument.getName }}
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-2 col-form-label">Location</label>
+			<div class="col-sm-10">
+				<div class="form-control form-control-plaintext">
+					{{ instrument.getLieu }}
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-2 col-form-label">Owner</label>
+			<div class="col-sm-10">
+				<div class="form-control form-control-plaintext">
+					{{ instrument.getOwner }}
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<!-- form-horizontal -->
+	<a href="{{ path('instrument_list') }}">back to list</a>
+{% endblock %}
