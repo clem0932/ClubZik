@@ -36,6 +36,7 @@ class OwnerController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $ownerRepository->add($owner, true);
+            $this->addFlash('success', $owner->getName().' (id='.$owner->getId().') a bien été ajouté !');
 
             return $this->redirectToRoute('app_owner_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -66,6 +67,7 @@ class OwnerController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $ownerRepository->add($owner, true);
+            $this->addFlash('success', $owner->getName().' (id='.$owner->getId().') a bien été modifié !');
 
             return $this->redirectToRoute('app_owner_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -82,6 +84,7 @@ class OwnerController extends AbstractController
     public function delete(Request $request, Owner $owner, OwnerRepository $ownerRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$owner->getId(), $request->request->get('_token'))) {
+            $this->addFlash('success', $owner->getName().' (id='.$owner->getId().') a bien été supprimé !');
             $ownerRepository->remove($owner, true);
         }
 

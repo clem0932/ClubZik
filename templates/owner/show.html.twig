@@ -3,7 +3,7 @@
 {% block title %}Owner
 {% endblock %}
 
-{% block body %}
+{% block main %}
 	<h1>Owner</h1>
 
 	<table class="table">
@@ -18,9 +18,8 @@
 			</tr>
 		</tbody>
 	</table>
+	<a href="{{ path('app_owner_edit', {'id': owner.getId}) }}" class="btn btn-primary" style="margin-top:10px">edit</a>
+	<a href=" {{ path('app_owner_index') }} " class=" btn btn-secondary" style=" margin-top:10px">back to list</a>
 
-	<a href="{{ path('app_owner_index') }}">back to list</a>
-
-	<a href="{{ path('app_owner_edit', {'id': owner.getId}) }}">edit</a>
 
 {% endblock %}
