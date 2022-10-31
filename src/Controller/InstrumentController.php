@@ -25,7 +25,7 @@ class InstrumentController extends AbstractController
     /**
      * Lists all todo entities.
      *
-     * @Route("/list", name = "instrument_list", methods="GET")
+     * @Route("/instrument/list", name = "instrument_list", methods="GET")
      */
     public function listAction(ManagerRegistry $doctrine): Response
     {
@@ -43,7 +43,7 @@ class InstrumentController extends AbstractController
     /**
      * Finds and displays a todo entity.
      *
-     * @Route("/{id}", name="instrument_show", requirements={ "id": "\d+"}, methods="GET")
+     * @Route("/instrument/{id}", name="instrument_show", requirements={ "id": "\d+"}, methods="GET")
      */
     public function showAction(Instrument $instrument): Response
     {
@@ -54,7 +54,7 @@ class InstrumentController extends AbstractController
 
 
     /**
-     * @Route("/new", name="instrument_new", methods={"GET", "POST"})
+     * @Route("/instrument/new", name="instrument_new", methods={"GET", "POST"})
      */
     public function new(Request $request, InstrumentRepository $instrumentRepository): Response
     {
@@ -65,7 +65,7 @@ class InstrumentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $instrumentRepository->add($instrument, true);
 
-            $this->addFlash('message', 'bien ajouté !');
+            $this->addFlash('success', $instrument->getName().' (id='.$instrument->getId().') a bien été ajouté !');
             return $this->redirectToRoute('instrument_list', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -76,7 +76,7 @@ class InstrumentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="instrument_edit", methods={"GET", "POST"})
+     * @Route("/instrument/{id}/edit", name="instrument_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Instrument $instrument, InstrumentRepository $instrumentRepository): Response
     {
@@ -86,6 +86,7 @@ class InstrumentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $instrumentRepository->add($instrument, true);
 
+            $this->addFlash('success', $instrument->getName().' (id='.$instrument->getId().') a bien été modifié !');
             return $this->redirectToRoute('instrument_list', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -97,12 +98,14 @@ class InstrumentController extends AbstractController
 
 
     /**
-     * @Route("/{id}", name="instrument_delete", methods={"POST"})
+     * @Route("/instrument/{id}", name="instrument_delete", methods={"POST"})
      */
     public function delete(Request $request, Instrument $instrument, InstrumentRepository $instrumentRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$instrument->getId(), $request->request->get('_token'))) {
+            $this->addFlash('success', $instrument->getName().' (id='.$instrument->getId().') a bien été supprimé !');
             $intrumentRepository->remove($instrument, true);
+            
         }
 
         return $this->redirectToRoute('instrument_list', [], Response::HTTP_SEE_OTHER);

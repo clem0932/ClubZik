@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Owner
+{% endblock %}
+
+{% block body %}
+	<h1>Owner</h1>
+
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ owner.getId }}</td>
+			</tr>
+			<tr>
+				<th>Nom</th>
+				<td>{{ owner.getName }}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<a href="{{ path('app_owner_index') }}">back to list</a>
+
+	<a href="{{ path('app_owner_edit', {'id': owner.getId}) }}">edit</a>
+
+{% endblock %}

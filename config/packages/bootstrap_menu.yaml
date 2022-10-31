@@ -3,11 +3,11 @@ bootstrap_menu:
     main:
       items:
         instruments:
-          label: 'Instruments'
+          label: 'List of Instruments'
           route: 'instrument_list'
-#        Owner:
-#          label: 'Owners'
-#          route: 'owner_list'
+        Owner:
+          label: 'List of Owners'
+          route: 'app_owner_index'
 #        Lieu:
-#          label: 'Locations'
-#          route: 'lieu_list'
+#          label: 'List of Locations'
+#          route: 'app_lieu_list'
