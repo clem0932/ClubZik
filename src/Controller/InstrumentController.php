@@ -12,13 +12,11 @@ use Doctrine\Persistence\ManagerRegistry;
 class InstrumentController extends AbstractController
 {
     /**
-     * @Route("/instrument_twig", name="app_instrument")
+     * @Route("/", name = "home", methods="GET")
      */
-    public function index(): Response
+    public function indexAction()
     {
-        return $this->render('instrument/index.html.twig', [
-            'controller_name' => 'InstrumentController',
-        ]);
+        return $this->render('/home/index.html.twig');
     }
 
     /**

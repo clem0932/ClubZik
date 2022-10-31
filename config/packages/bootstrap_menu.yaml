@@ -5,3 +5,9 @@ bootstrap_menu:
         instruments:
           label: 'Instruments'
           route: 'instrument_list'
+#        Owner:
+#          label: 'Owners'
+#          route: 'owner_list'
+#        Lieu:
+#          label: 'Locations'
+#          route: 'lieu_list'

@@ -33,6 +33,17 @@ class Instrument
      */
     private $owner;
 
+    /**
+     * @return string
+     */
+    public function __toString() 
+    {
+        $s = '';
+        $s .= $this->getId() .' '. $this->getTitle() .' ';
+        $s .= $this->getLieu() .' '. $this->getOwner();
+        return $s;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
