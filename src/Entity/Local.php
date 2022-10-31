@@ -22,6 +22,17 @@ class Local
      */
     private $name = [];
 
+    /**
+     * @return string
+     */
+    public function __toString() 
+    {
+        $s = '';
+        $s .=$this->getName() .' ';
+        return $s;
+    }
+
+
     public function getId(): ?int
     {
         return $this->id;

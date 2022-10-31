@@ -1,0 +1,7 @@
+bootstrap_menu:
+  menus:
+    main:
+      items:
+        instruments:
+          label: 'Instruments'
+          route: 'instrument_list'

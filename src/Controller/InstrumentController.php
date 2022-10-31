@@ -21,40 +21,20 @@ class InstrumentController extends AbstractController
         ]);
     }
 
-
     /**
      * Lists all todo entities.
      *
      * @Route("/list", name = "instrument_list", methods="GET")
-     * @Route("/index", name="instrument_index", methods="GET")
      */
-    public function listAction(ManagerRegistry $doctrine)
+    public function listAction(ManagerRegistry $doctrine): Response
     {
-        $htmlpage = '<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Instruments list!</title>
-    </head>
-    <body>
-        <h1>Instrument list</h1>
-        <p>Here are all your Instruments:</p>
-        <ul>';
-        
         $entityManager= $doctrine->getManager();
         $instruments = $entityManager->getRepository(Instrument::class)->findAll();
-        foreach($instruments as $instrument) {
-           $htmlpage .= '<li>
-            <a href="/instrument?id='.$instrument->getid().'">'.$instrument->getName().'</a></li>';
-         }
-        $htmlpage .= '</ul>';
 
-        $htmlpage .= '</body></html>';
-        
-        return new Response(
-            $htmlpage,
-            Response::HTTP_OK,
-            array('content-type' => 'text/html')
+        dump($instruments);
+
+        return $this->render('instrument/index.html.twig',
+            [ 'instruments' => $instruments ]
             );
     }
 
