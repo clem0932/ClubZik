@@ -74,4 +74,37 @@ class InstrumentController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    /**
+     * @Route("/{id}/edit", name="instrument_edit", methods={"GET", "POST"})
+     */
+    public function edit(Request $request, Instrument $instrument, InstrumentRepository $instrumentRepository): Response
+    {
+        $form = $this->createForm(InstrumentType::class, $instrument);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $instrumentRepository->add($instrument, true);
+
+            return $this->redirectToRoute('instrument_list', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('instrument/edit.html.twig', [
+            'instrument' => $instrument,
+            'form' => $form,
+        ]);
+    }
+
+
+    /**
+     * @Route("/{id}", name="instrument_delete", methods={"POST"})
+     */
+    public function delete(Request $request, Instrument $instrument, InstrumentRepository $instrumentRepository): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$instrument->getId(), $request->request->get('_token'))) {
+            $intrumentRepository->remove($instrument, true);
+        }
+
+        return $this->redirectToRoute('instrument_list', [], Response::HTTP_SEE_OTHER);
+    }
 }
