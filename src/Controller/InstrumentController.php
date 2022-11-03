@@ -63,7 +63,7 @@ class InstrumentController extends AbstractController
 
             if ($imagefile) {
                 $mimetype = $imagefile->getMimeType();
-                $instrument->setContentType($mimetype);
+                //$instrument->setContentType($mimetype);
             }
 
             $instrumentRepository->add($instrument, true);
@@ -91,7 +91,7 @@ class InstrumentController extends AbstractController
 
             if ($imagefile) {
                 $mimetype = $imagefile->getMimeType();
-                $instrument->setContentType($mimetype);
+                //$instrument->setContentType($mimetype);
             }
 
             $instrumentRepository->add($instrument, true);
