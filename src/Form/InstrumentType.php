@@ -4,8 +4,10 @@ namespace App\Form;
 
 use App\Entity\Instrument;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class InstrumentType extends AbstractType
 {
@@ -15,6 +17,8 @@ class InstrumentType extends AbstractType
             ->add('name')
             ->add('lieu')
             ->add('owner')
+            ->add('imageName', TextType::class, ['disabled' => true])
+            ->add('imageFile', VichImageType::class, ['required' => false])
         ;
     }
 

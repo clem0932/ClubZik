@@ -2,15 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Instrument;
+use App\Form\InstrumentType;
+use App\Repository\InstrumentRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\Instrument;
-use App\Entity\Local;
-use Doctrine\Persistence\ManagerRegistry;
-use App\Repository\InstrumentRepository;
-use App\Form\InstrumentType;
-use Symfony\Component\HttpFoundation\Request;
 
 class InstrumentController extends AbstractController
 {
@@ -29,16 +28,15 @@ class InstrumentController extends AbstractController
      */
     public function listAction(ManagerRegistry $doctrine): Response
     {
-        $entityManager= $doctrine->getManager();
+        $entityManager = $doctrine->getManager();
         $instruments = $entityManager->getRepository(Instrument::class)->findAll();
 
         dump($instruments);
 
         return $this->render('instrument/index.html.twig',
-            [ 'instruments' => $instruments ]
-            );
+            ['instruments' => $instruments]
+        );
     }
-
 
     /**
      * Finds and displays a todo entity.
@@ -48,24 +46,29 @@ class InstrumentController extends AbstractController
     public function showAction(Instrument $instrument): Response
     {
         return $this->render('instrument/show.html.twig',
-     [ 'instrument' => $instrument ]
-     );
+            ['instrument' => $instrument]
+        );
     }
-
 
     /**
      * @Route("/instrument/new", name="instrument_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, InstrumentRepository $instrumentRepository): Response
-    {
+    function new (Request $request, InstrumentRepository $instrumentRepository): Response {
         $instrument = new Instrument();
         $form = $this->createForm(InstrumentType::class, $instrument);
-        $form->handleRequest($request); 
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $imagefile = $instrument->getImageFile();
+
+            if ($imagefile) {
+                $mimetype = $imagefile->getMimeType();
+                $instrument->setContentType($mimetype);
+            }
+
             $instrumentRepository->add($instrument, true);
 
-            $this->addFlash('success', $instrument->getName().' (id='.$instrument->getId().') a bien été ajouté !');
+            $this->addFlash('success', $instrument->getName() . ' (id=' . $instrument->getId() . ') a bien été ajouté !');
             return $this->redirectToRoute('instrument_list', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -84,9 +87,16 @@ class InstrumentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $imagefile = $instrument->getImageFile();
+
+            if ($imagefile) {
+                $mimetype = $imagefile->getMimeType();
+                $instrument->setContentType($mimetype);
+            }
+
             $instrumentRepository->add($instrument, true);
 
-            $this->addFlash('success', $instrument->getName().' (id='.$instrument->getId().') a bien été modifié !');
+            $this->addFlash('success', $instrument->getName() . ' (id=' . $instrument->getId() . ') a bien été modifié !');
             return $this->redirectToRoute('instrument_list', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -96,16 +106,15 @@ class InstrumentController extends AbstractController
         ]);
     }
 
-
     /**
      * @Route("/instrument/{id}", name="instrument_delete", methods={"POST"})
      */
     public function delete(Request $request, Instrument $instrument, InstrumentRepository $instrumentRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$instrument->getId(), $request->request->get('_token'))) {
-            $this->addFlash('success', $instrument->getName().' (id='.$instrument->getId().') a bien été supprimé !');
+        if ($this->isCsrfTokenValid('delete' . $instrument->getId(), $request->request->get('_token'))) {
+            $this->addFlash('success', $instrument->getName() . ' (id=' . $instrument->getId() . ') a bien été supprimé !');
             $intrumentRepository->remove($instrument, true);
-            
+
         }
 
         return $this->redirectToRoute('instrument_list', [], Response::HTTP_SEE_OTHER);
