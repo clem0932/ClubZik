@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Local
+{% endblock %}
+
+{% block main %}
+	<h1>Local</h1>
+
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ local.id }}</td>
+			</tr>
+			<tr>
+				<th>Name</th>
+				<td>{{ local.name }}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<a href="{{ path('app_local_edit', {'id': local.getId}) }}" class="btn btn-primary" style="margin-top:10px">edit</a>
+	<a href=" {{ path('app_local_index') }} " class=" btn btn-dark" style=" margin-top:10px">back to list</a>
+
+{% endblock %}

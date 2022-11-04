@@ -20,18 +20,17 @@ class Local
     /**
      * @ORM\Column(type="string")
      */
-    private $name = [];
+    private $name = "";
 
     /**
      * @return string
      */
-    public function __toString() 
+    public function __toString()
     {
         $s = '';
-        $s .=$this->getName() .' ';
+        $s .= $this->getName() . ' ';
         return $s;
     }
-
 
     public function getId(): ?int
     {
