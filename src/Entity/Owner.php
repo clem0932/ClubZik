@@ -20,16 +20,15 @@ class Owner
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $nom;
-
+    private $name;
 
     /**
      * @return string
      */
-    public function __toString() 
+    public function __toString()
     {
         $s = '';
-        $s .=$this->getName() .' ';
+        $s .= $this->getName() . ' ';
         return $s;
     }
 
@@ -40,12 +39,12 @@ class Owner
 
     public function getName(): ?string
     {
-        return $this->nom;
+        return $this->name;
     }
 
-    public function setName(string $nom): self
+    public function setName(string $name): self
     {
-        $this->nom = $nom;
+        $this->name = $name;
 
         return $this;
     }
