@@ -5,8 +5,9 @@
 
 {% block main %}
 	{% if error %}
-		<div>Error</div>
+		<div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 	{% endif %}
+	<!-- Pills content -->
 	<form
 		action="{{ path('app_login') }}" method="post" style="margin-top:20px">
 		<!-- Email input -->
@@ -23,11 +24,13 @@
 
 		<!-- Submit button -->
 		<button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
-		<inputtype="hidden" name="_target_path" value="{{ path('home') }}"/>
+		<input type="hidden" name="_target_path" value="{{ path('home') }}"/>
+		<input type="hidden" name="_csrf_token" value="{{ fos_csrf_provider.refreshToken('authenticate') }}"/>
 	</form>
 	<div class="text-center">
 		<p>Not a member?
 			<a href="{{ path('app_register') }}">Register</a>
 		</p>
 	</div>
+	<!-- Pills content -->
 {% endblock %}
