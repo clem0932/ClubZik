@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ local.getName }}
+{% endblock %}
+
+{% block main %}
+	<h1>{{ local.getName }}</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Nom</th>
+				<th>Owner</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for instrument in instruments %}
+				<tr>
+					<td>{{ instrument.getId }}</td>
+					<td>{{ instrument.getName }}</td>
+					<td>{{ instrument.getOwner }}</td>
+					<td>
+						<a href="{{ path('instrument_show', {'id': instrument.getId}) }}">show</a>
+						<a href="{{ path('instrument_edit', {'id': instrument.getId}) }}">edit</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="3">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<a href="{{ path('app_local_index') }}">Go Back</a>
+{% endblock %}

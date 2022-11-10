@@ -20,6 +20,7 @@
 					<td>{{ local.id }}</td>
 					<td>{{ local.name }}</td>
 					<td>
+						<a href="{{ path('app_local_instrument_show', {'id': local.getId}) }}">show Instruments</a>
 						<a href="{{ path('app_local_show', {'id': local.id}) }}">show</a>
 						<a href="{{ path('app_local_edit', {'id': local.id}) }}">edit</a>
 					</td>

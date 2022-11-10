@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Local;
 use App\Form\LocalType;
+use App\Repository\InstrumentRepository;
 use App\Repository\LocalRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,8 +29,7 @@ class LocalController extends AbstractController
     /**
      * @Route("/new", name="app_local_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, LocalRepository $localRepository): Response
-    {
+    function new (Request $request, LocalRepository $localRepository): Response {
         $local = new Local();
         $form = $this->createForm(LocalType::class, $local);
         $form->handleRequest($request);
@@ -52,6 +52,23 @@ class LocalController extends AbstractController
     public function show(Local $local): Response
     {
         return $this->render('local/show.html.twig', [
+            'local' => $local,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/instrument", name="app_local_instrument_show", methods={"GET"})
+     */
+    public function showInstrument(Local $local, InstrumentRepository $instrumentRepo): Response
+    {
+        $instruments = [];
+        foreach ($instrumentRepo->findAll() as $instrument) {
+            if ($instrument->getLieu() === $local) {
+                $instruments[] = $instrument;
+            }
+        }
+        return $this->render('local/show_instrument.html.twig', [
+            'instruments' => $instruments,
             'local' => $local,
         ]);
     }
@@ -81,7 +98,7 @@ class LocalController extends AbstractController
      */
     public function delete(Request $request, Local $local, LocalRepository $localRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$local->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $local->getId(), $request->request->get('_token'))) {
             $localRepository->remove($local, true);
         }
 
