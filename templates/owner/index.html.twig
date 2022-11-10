@@ -20,6 +20,7 @@
 					<td>{{ owner.getId }}</td>
 					<td>{{ owner.getName }}</td>
 					<td>
+						<a href="{{ path('app_owner_instrument_show', {'id': owner.getId}) }}">show Instruments</a>
 						<a href="{{ path('app_owner_show', {'id': owner.getId}) }}">show</a>
 						<a href="{{ path('app_owner_edit', {'id': owner.getId}) }}">edit</a>
 					</td>

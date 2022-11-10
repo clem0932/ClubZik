@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Instrument;
 use App\Entity\Owner;
 use App\Form\OwnerType;
+use App\Repository\InstrumentRepository;
 use App\Repository\OwnerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,15 +30,14 @@ class OwnerController extends AbstractController
     /**
      * @Route("/new", name="app_owner_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, OwnerRepository $ownerRepository): Response
-    {
+    function new (Request $request, OwnerRepository $ownerRepository): Response {
         $owner = new Owner();
         $form = $this->createForm(OwnerType::class, $owner);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $ownerRepository->add($owner, true);
-            $this->addFlash('success', $owner->getName().' (id='.$owner->getId().') a bien été ajouté !');
+            $this->addFlash('success', $owner->getName() . ' (id=' . $owner->getId() . ') a bien été ajouté !');
 
             return $this->redirectToRoute('app_owner_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -58,6 +59,23 @@ class OwnerController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/instrument", name="app_owner_instrument_show", methods={"GET"})
+     */
+    public function showInstrument(Owner $owner, InstrumentRepository $instrumentRepo): Response
+    {
+        $instruments = [];
+        foreach ($instrumentRepo->findAll() as $instrument) {
+            if ($instrument->getOwner() === $owner) {
+                $instruments[] = $instrument;
+            }
+        }
+        return $this->render('owner/show_instrument.html.twig', [
+            'instruments' => $instruments,
+            'owner' => $owner,
+        ]);
+    }
+
+    /**
      * @Route("/{id}/edit", name="app_owner_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Owner $owner, OwnerRepository $ownerRepository): Response
@@ -67,7 +85,7 @@ class OwnerController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $ownerRepository->add($owner, true);
-            $this->addFlash('success', $owner->getName().' (id='.$owner->getId().') a bien été modifié !');
+            $this->addFlash('success', $owner->getName() . ' (id=' . $owner->getId() . ') a bien été modifié !');
 
             return $this->redirectToRoute('app_owner_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -83,8 +101,8 @@ class OwnerController extends AbstractController
      */
     public function delete(Request $request, Owner $owner, OwnerRepository $ownerRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$owner->getId(), $request->request->get('_token'))) {
-            $this->addFlash('success', $owner->getName().' (id='.$owner->getId().') a bien été supprimé !');
+        if ($this->isCsrfTokenValid('delete' . $owner->getId(), $request->request->get('_token'))) {
+            $this->addFlash('success', $owner->getName() . ' (id=' . $owner->getId() . ') a bien été supprimé !');
             $ownerRepository->remove($owner, true);
         }
 
