@@ -23,7 +23,9 @@
 					<td>{{ instrument.getLieu }}</td>
 					<td>
 						<a href="{{ path('instrument_show', {'id': instrument.getId}) }}">show</a>
-						<a href="{{ path('instrument_edit', {'id': instrument.getId}) }}">edit</a>
+						{% if is_granted('ROLE_USER') %}
+							<a href="{{ path('instrument_edit', {'id': instrument.getId}) }}">edit</a>
+						{% endif %}
 					</td>
 				</tr>
 			{% else %}

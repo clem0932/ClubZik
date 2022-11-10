@@ -22,7 +22,9 @@
 					<td>
 						<a href="{{ path('app_owner_instrument_show', {'id': owner.getId}) }}">show Instruments</a>
 						<a href="{{ path('app_owner_show', {'id': owner.getId}) }}">show</a>
-						<a href="{{ path('app_owner_edit', {'id': owner.getId}) }}">edit</a>
+						{% if is_granted('ROLE_USER') %}
+							<a href="{{ path('app_owner_edit', {'id': owner.getId}) }}">edit</a>
+						{% endif %}
 					</td>
 				</tr>
 			{% else %}
@@ -32,6 +34,7 @@
 			{% endfor %}
 		</tbody>
 	</table>
-
-	<a href="{{ path('app_owner_new') }}">Create new</a>
+	{% if is_granted('ROLE_USER') %}
+		<a href="{{ path('app_owner_new') }}">Create new</a>
+	{% endif %}
 {% endblock %}

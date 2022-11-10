@@ -57,8 +57,9 @@
 					</div>
 				</div>
 			</div>
-
-			<a href="{{ path('instrument_edit', {'id': instrument.getId}) }}" class="btn btn-light" style="margin-top:30px">edit</a>
+			{% if is_granted('ROLE_USER') %}
+				<a href="{{ path('instrument_edit', {'id': instrument.getId}) }}" class="btn btn-light" style="margin-top:30px">edit</a>
+			{% endif %}
 		</div>
 		<!-- form-horizontal -->
 

@@ -18,7 +18,10 @@
 			</tr>
 		</tbody>
 	</table>
-	<a href="{{ path('app_owner_edit', {'id': owner.getId}) }}" class="btn btn-primary" style="margin-top:10px">edit</a>
+	{% if is_granted('ROLE_USER') %}
+		<a href="{{ path('app_owner_edit', {'id': owner.getId}) }}" class="btn btn-primary" style="margin-top:10px">edit</a>
+	{% endif %}
+
 	<a href=" {{ path('app_owner_index') }} " class=" btn btn-dark" style=" margin-top:10px">back to list</a>
 
 

@@ -32,14 +32,17 @@
 					</td>
 					<td>
 						<a href="{{ path('instrument_show', {'id': instrument.id}) }}">show</a>
-						<a href="{{ path('instrument_edit', {'id': instrument.id}) }}">edit</a>
+						{% if is_granted('ROLE_USER') %}
+							<a href="{{ path('instrument_edit', {'id': instrument.id}) }}">edit</a>
+						{% endif %}
 					</td>
 				</tr>
 			{% endfor %}
 		</tbody>
 	</table>
-
-	<a href="{{ path('instrument_new') }}">Create new</a>
+	{% if is_granted('ROLE_USER') %}
+		<a href="{{ path('instrument_new') }}">Create new</a>
+	{% endif %}
 
 {% endblock %}
 {# main  #}

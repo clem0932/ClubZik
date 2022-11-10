@@ -8,8 +8,9 @@
 
 	{{ include('local/_form.html.twig', {'button_label': 'Update'}) }}
 
-
-	{{ include('local/_delete_form.html.twig') }}
+	{% if is_granted('ROLE_ADMIN') %}
+		{{ include('local/_delete_form.html.twig') }}
+	{% endif %}
 
 	<a href="{{ path('app_local_index') }}" class="btn btn-dark" style="margin-top:10px">back to list</a>
 {% endblock %}

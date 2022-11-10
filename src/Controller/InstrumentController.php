@@ -6,6 +6,7 @@ use App\Entity\Instrument;
 use App\Form\InstrumentType;
 use App\Repository\InstrumentRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -52,6 +53,7 @@ class InstrumentController extends AbstractController
 
     /**
      * @Route("/instrument/new", name="instrument_new", methods={"GET", "POST"})
+     * @IsGranted("ROLE_USER")
      */
     function new (Request $request, InstrumentRepository $instrumentRepository): Response {
         $instrument = new Instrument();
@@ -80,6 +82,7 @@ class InstrumentController extends AbstractController
 
     /**
      * @Route("/instrument/{id}/edit", name="instrument_edit", methods={"GET", "POST"})
+     * @IsGranted("ROLE_USER")
      */
     public function edit(Request $request, Instrument $instrument, InstrumentRepository $instrumentRepository): Response
     {
@@ -108,6 +111,7 @@ class InstrumentController extends AbstractController
 
     /**
      * @Route("/instrument/{id}", name="instrument_delete", methods={"POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Instrument $instrument, InstrumentRepository $instrumentRepository): Response
     {

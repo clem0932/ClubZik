@@ -74,6 +74,9 @@
 								{% endif %}
 								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 								<strong>
+									{% if type == 'danger' %}
+										{% set type = 'error' %}
+									{% endif %}
 									{{ type|capitalize }}!
 								</strong>
 								{{ message|raw }}

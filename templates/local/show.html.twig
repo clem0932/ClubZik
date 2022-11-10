@@ -18,8 +18,9 @@
 			</tr>
 		</tbody>
 	</table>
-
-	<a href="{{ path('app_local_edit', {'id': local.getId}) }}" class="btn btn-primary" style="margin-top:10px">edit</a>
+	{% if is_granted('ROLE_USER') %}
+		<a href="{{ path('app_local_edit', {'id': local.getId}) }}" class="btn btn-primary" style="margin-top:10px">edit</a>
+	{% endif %}
 	<a href=" {{ path('app_local_index') }} " class=" btn btn-dark" style=" margin-top:10px">back to list</a>
 
 {% endblock %}

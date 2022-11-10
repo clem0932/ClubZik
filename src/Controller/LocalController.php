@@ -6,6 +6,7 @@ use App\Entity\Local;
 use App\Form\LocalType;
 use App\Repository\InstrumentRepository;
 use App\Repository\LocalRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,6 +29,7 @@ class LocalController extends AbstractController
 
     /**
      * @Route("/new", name="app_local_new", methods={"GET", "POST"})
+     * @IsGranted("ROLE_USER")
      */
     function new (Request $request, LocalRepository $localRepository): Response {
         $local = new Local();
@@ -75,6 +77,7 @@ class LocalController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="app_local_edit", methods={"GET", "POST"})
+     * @IsGranted("ROLE_USER")
      */
     public function edit(Request $request, Local $local, LocalRepository $localRepository): Response
     {
@@ -95,6 +98,7 @@ class LocalController extends AbstractController
 
     /**
      * @Route("/{id}", name="app_local_delete", methods={"POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Local $local, LocalRepository $localRepository): Response
     {

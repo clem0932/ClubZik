@@ -19,7 +19,9 @@ class LoginController extends AbstractController
 
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
-
+        if ($error) {
+            $this->addFlash('error', 'Invalid username or password');
+        }
         return $this->render('login/index.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,

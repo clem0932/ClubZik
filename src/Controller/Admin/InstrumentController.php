@@ -5,11 +5,12 @@ namespace App\Controller\Admin;
 use App\Entity\Instrument;
 use App\Entity\Local;
 use App\Entity\Owner;
+use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
-use Symfony\Component\HttpFoundation\Response;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class InstrumentController extends AbstractDashboardController
@@ -27,15 +28,16 @@ class InstrumentController extends AbstractDashboardController
 
     public function configureDashboard(): Dashboard
     {
-        return Dashboard::new()
+        return Dashboard::new ()
             ->setTitle('ClubZik');
     }
 
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToCrud('Instrument', 'fas fa-list', Instrument::class);
-        yield MenuItem::linkToCrud('Local', 'fas fa-list', Local::class);
-        yield MenuItem::linkToCrud('Propriétaires', 'fas fa-list', Owner::class);
+        yield MenuItem::linkToCrud('Instruments', 'fas fa-list', Instrument::class);
+        yield MenuItem::linkToCrud('Locations', 'fas fa-list', Local::class);
+        yield MenuItem::linkToCrud('Owners', 'fas fa-list', Owner::class);
+        yield MenuItem::linkToCrud('Users', 'fas fa-list', User::class);
     }
 }

@@ -7,6 +7,7 @@ use App\Entity\Owner;
 use App\Form\OwnerType;
 use App\Repository\InstrumentRepository;
 use App\Repository\OwnerRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,6 +30,7 @@ class OwnerController extends AbstractController
 
     /**
      * @Route("/new", name="app_owner_new", methods={"GET", "POST"})
+     * @IsGranted("ROLE_USER")
      */
     function new (Request $request, OwnerRepository $ownerRepository): Response {
         $owner = new Owner();
@@ -77,6 +79,7 @@ class OwnerController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="app_owner_edit", methods={"GET", "POST"})
+     * @IsGranted("ROLE_USER")
      */
     public function edit(Request $request, Owner $owner, OwnerRepository $ownerRepository): Response
     {
@@ -98,6 +101,7 @@ class OwnerController extends AbstractController
 
     /**
      * @Route("/{id}", name="app_owner_delete", methods={"POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Owner $owner, OwnerRepository $ownerRepository): Response
     {

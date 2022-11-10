@@ -2,23 +2,24 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Instrument;
+use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
-class InstrumentCrudController extends AbstractCrudController
+class UserCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Instrument::class;
+        return User::class;
     }
-/*
+
+    /*
 public function configureFields(string $pageName): iterable
 {
 return [
-IdField::new ('id'),
-TextField::new ('name'),
-TextEditorField::new ('description'),
+IdField::new('id'),
+TextField::new('title'),
+TextEditorField::new('description'),
 ];
-}*/
-
+}
+ */
 }
