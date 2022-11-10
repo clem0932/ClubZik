@@ -13,7 +13,20 @@
 		<!-- Email input -->
 		<div class="form-outline mb-4">
 			<label class="form-label" for="username">Username</label>
-			<input type="text" id="username" class="form-control" name="_username" placeholder="Enter Username" value="{{ last_username }}" required>
+			{% if last_username == "" %}
+				<script>
+					const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const username = urlParams.get('last_username')
+if (username) {
+document.write('<input type="text" id="username" name="_username" class="form-control" placeholder="Enter Username" value="' + username + '" required>');
+} else {
+document.write('<input type="text" id="username" name="_username" class="form-control" placeholder="Enter Username" required>');
+}
+				</script>
+			{% else %}
+				<input type="text" id="username" name="_username" class="form-control" placeholder="Enter Username" value="{{ last_username }}" required>
+			{% endif %}
 		</div>
 
 		<!-- Password input -->

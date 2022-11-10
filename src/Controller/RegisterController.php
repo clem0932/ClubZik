@@ -38,7 +38,7 @@ class RegisterController extends AbstractController
             $entityManager->flush();
 
             return $this->redirectToRoute('app_login', [
-                'last_username' => $user->getUsername(),
+                'last_username' => $form->get('Username')->getData(),
             ]);
         }
         return $this->render('register/index.html.twig', [
