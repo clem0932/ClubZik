@@ -101,7 +101,7 @@ class Instrument
     public function __toString()
     {
         $s = '';
-        $s .= $this->getId() . ' ' . $this->getTitle() . ' ';
+        $s .= $this->getId() . ' ' . $this->getName() . ' ';
         $s .= $this->getLieu() . ' ' . $this->getOwner();
         return $s;
     }

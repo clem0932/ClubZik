@@ -11,6 +11,7 @@
 				<th>Name</th>
 				<th>Location</th>
 				<th>Owner</th>
+				<th>Reserved</th>
 				<th>
 					&nbsp;</th>
 			</tr>
@@ -31,9 +32,22 @@
 						{{ instrument.getOwner }}
 					</td>
 					<td>
+						{{ instrument.getReservation }}
+					</td>
+					<td>
 						<a href="{{ path('instrument_show', {'id': instrument.id}) }}">show</a>
 						{% if is_granted('ROLE_USER') %}
 							<a href="{{ path('instrument_edit', {'id': instrument.id}) }}">edit</a>
+							{% set reserved = app.session.get('reserved') %}
+							{% if instrument.getReservation == "" %}
+								{% if instrument.id not in reserved %}
+									<a href="{{ path('instrument_mark', {'id': instrument.id}) }}" class="btn btn-light">Add to Your Reservation</a>
+								{% else %}
+									<a href="{{ path('instrument_mark', {'id': instrument.id}) }}" class="btn btn-dark">Remove from Your Reservation</a>
+								{% endif %}
+							{% else %}
+								<a href="{{ path('instrument_mark', {'id': instrument.id}) }}" class="btn btn-light disabled">Already in a reservation</a>
+							{% endif %}
 						{% endif %}
 					</td>
 				</tr>

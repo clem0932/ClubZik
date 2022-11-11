@@ -15,14 +15,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class InstrumentController extends AbstractController
 {
     /**
-     * @Route("/", name = "home", methods="GET")
-     */
-    public function indexAction()
-    {
-        return $this->render('/home/index.html.twig');
-    }
-
-    /**
      * Lists all todo entities.
      *
      * @Route("/instrument/list", name = "instrument_list", methods="GET")
@@ -122,5 +114,26 @@ class InstrumentController extends AbstractController
         }
 
         return $this->redirectToRoute('instrument_list', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * Mark a task as current priority in the user's session
+     *
+     * @Route("/instrument/mark/{id}", name="instrument_mark", requirements={ "id": "\d+"}, methods="GET")
+     */
+    public function markAction(Request $request, Instrument $instrument): Response
+    {
+        $reserved = $request->getSession()->get('reserved');
+        if (!is_array($reserved)) {
+            $reserved = array();
+        }
+        $id = $instrument->getId();
+        if (!in_array($id, $reserved)) {
+            $reserved[] = $id;
+        } else {
+            $reserved = array_diff($reserved, array($id));
+        }
+        $request->getSession()->set('reserved', $reserved);
+        return $this->redirectToRoute('instrument_list');
     }
 }

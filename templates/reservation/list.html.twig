@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Welcome!
+{% endblock %}
+
+{% block main %}
+	<h1 class="text-center" style="margin-top:40px">
+		All current Reservations
+	</h1>
+	{% if reservations is not empty %}
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th scope="col">ID</th>
+					<th scope="col">Name</th>
+					<th scope="col">Description</th>
+					<th scope="col">Location</th>
+					<th scope="col">User</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for reservation in reservations %}
+					<tr>
+						<th scope="row">{{ reservation.id }}</th>
+						<td>{{ reservation.name }}</td>
+						<td>{{ reservation.description }}</td>
+						<td>{{ reservation.location }}</td>
+						<td>{{ reservation.user }}</td>
+						<td>
+							{{ include('reservation/_delete_form.html.twig') }}
+						</td>
+					</tr>
+
+				{% endfor %}
+
+			</tbody>
+		</table>
+	{% else %}
+		<p>There is no reservations.</p>
+	{% endif %}
+	<a href="{{ path('app_reservation_new') }}" class="btn btn-primary">Make a new reservation</a>
+{% endblock %}
