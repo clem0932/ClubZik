@@ -44,13 +44,6 @@ class ReservationController extends AbstractController
         $form = $this->createForm(ReservationType::class, $reservation);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $reservation->setUser($this->getUser());
-            $ReservationRepo->add($reservation, true);
-            $this->addFlash('success', $reservation->getName() . ' (id=' . $reservation->getId() . ') a bien été pris en compte !');
-
-            return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
-        }
         $inReservation = [];
         $inReservationIds = $request->getSession()->get('reserved');
         if (isset($inReservationIds)) {
@@ -59,6 +52,18 @@ class ReservationController extends AbstractController
                 array_push($inReservation, $instrumentName);
             }
         }
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $reservation->setUser($this->getUser());
+            foreach ($inReservationIds as $id) {
+                $reservation->addInstrument($instrumentRepo->findOneBy(['id' => $id]));
+            }
+            $ReservationRepo->add($reservation, true);
+            $this->addFlash('success', $reservation->getName() . ' (id=' . $reservation->getId() . ') a bien été pris en compte !');
+
+            return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
+        }
+
         return $this->renderForm('reservation/new.html.twig', [
             'reservation' => $reservation,
             'form' => $form,

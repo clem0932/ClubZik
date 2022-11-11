@@ -100,10 +100,7 @@ class Instrument
      */
     public function __toString()
     {
-        $s = '';
-        $s .= $this->getId() . ' ' . $this->getName() . ' ';
-        $s .= $this->getLieu() . ' ' . $this->getOwner();
-        return $s;
+        return $this->getName();
     }
 
     public function getId(): ?int

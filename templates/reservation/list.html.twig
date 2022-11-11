@@ -16,6 +16,7 @@
 					<th scope="col">Description</th>
 					<th scope="col">Location</th>
 					<th scope="col">User</th>
+					<th scope="col">Instruments</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -26,9 +27,12 @@
 						<td>{{ reservation.description }}</td>
 						<td>{{ reservation.location }}</td>
 						<td>{{ reservation.user }}</td>
-						<td>
-							{{ include('reservation/_delete_form.html.twig') }}
-						</td>
+						<td>{{ reservation.instruments|join(', ') }}</td>
+						{% if is_granted('ROLE_ADMIN') %}
+							<td>
+								{{ include('reservation/_delete_form.html.twig') }}
+							</td>
+						{% endif %}
 					</tr>
 
 				{% endfor %}

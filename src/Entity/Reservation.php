@@ -56,9 +56,7 @@ class Reservation
      */
     public function __toString()
     {
-        $s = '';
-        $s .= $this->getName() . ' ';
-        return $s;
+        return $this->getName();
     }
 
     public function getId(): ?int
