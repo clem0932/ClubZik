@@ -32,7 +32,7 @@
 						{{ instrument.getOwner }}
 					</td>
 					<td>
-						{{ instrument.getReservation == " " ? 'No' : 'Yes' }}
+						{{ instrument.getReservation is empty ? 'No' : 'Yes' }}
 					</td>
 					<td>
 						<a href="{{ path('instrument_show', {'id': instrument.id}) }}">show</a>

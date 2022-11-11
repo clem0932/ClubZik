@@ -27,6 +27,7 @@ class ReservationController extends AbstractController
 
     /**
      * @Route("/reservation/list", name = "app_reservation_list", methods="GET")
+     * @IsGranted("ROLE_USER")
      */
     public function listAction(ReservationRepository $reservationRepo)
     {
@@ -48,17 +49,22 @@ class ReservationController extends AbstractController
         $inReservationIds = $request->getSession()->get('reserved');
         if (isset($inReservationIds)) {
             foreach ($inReservationIds as $id) {
-                $instrumentName = $instrumentRepo->findOneBy(['id' => $id])->getName();
-                array_push($inReservation, $instrumentName);
+                if ($instrumentRepo->findOneBy(['id' => $id]) != null) {
+                    $instrumentName = $instrumentRepo->findOneBy(['id' => $id])->getName();
+                    array_push($inReservation, $instrumentName);
+                }
             }
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $reservation->setUser($this->getUser());
             foreach ($inReservationIds as $id) {
-                $reservation->addInstrument($instrumentRepo->findOneBy(['id' => $id]));
+                if ($instrumentRepo->findOneBy(['id' => $id]) != null) {
+                    $reservation->addInstrument($instrumentRepo->findOneBy(['id' => $id]));
+                }
             }
             $ReservationRepo->add($reservation, true);
+            $request->getSession()->set('reserved', []);
             $this->addFlash('success', $reservation->getName() . ' (id=' . $reservation->getId() . ') a bien été pris en compte !');
 
             return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
@@ -75,10 +81,16 @@ class ReservationController extends AbstractController
      * @Route("/reservation/{id}", name="app_reservation_delete", methods={"POST"})
      * @IsGranted("ROLE_USER")
      */
-    public function delete(Request $request, Reservation $reservation, ReservationRepository $reservationRepository): Response
+    public function delete(Request $request, Reservation $reservation, ReservationRepository $reservationRepository, InstrumentRepository $instrumentRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $reservation->getId(), $request->request->get('_token'))) {
-            if ($this->getUser() === $reservation->getUser()) {
+            if ($this->getUser() === $reservation->getUser() || $this->isGranted('ROLE_ADMIN')) {
+                $instruments = $instrumentRepository->findBy(['reservation' => $reservation->getId()]);
+                foreach ($instruments as $instrument) {
+                    $instrumentRepository->remove($instrument, true);
+                    $instrument->setReservation(null);
+                    $instrumentRepository->add($instrument, true);
+                }
                 $reservationRepository->remove($reservation, true);
                 $this->addFlash('success', $reservation->getName() . ' (id=' . $reservation->getId() . ') a bien été supprimé !');
             } else {
