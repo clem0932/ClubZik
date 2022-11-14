@@ -87,7 +87,6 @@ class ReservationController extends AbstractController
             if ($this->getUser() === $reservation->getUser() || $this->isGranted('ROLE_ADMIN')) {
                 $instruments = $instrumentRepository->findBy(['reservation' => $reservation->getId()]);
                 foreach ($instruments as $instrument) {
-                    $instrumentRepository->remove($instrument, true);
                     $instrument->setReservation(null);
                     $instrumentRepository->add($instrument, true);
                 }
