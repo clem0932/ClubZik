@@ -26,7 +26,17 @@
 						{{ instrument.getName }}
 					</td>
 					<td>
-						{{ instrument.getLieu }}
+						{% if instrument.getReservation is empty %}
+							{{ instrument.getLieu }}
+							<br>
+						{% else %}
+
+							{{ instrument.getReservation.getLocation }}
+							<br><span class="text-muted">
+								(From :
+								<em>{{ instrument.getLieu }})</em>
+							</span>
+						{% endif %}
 					</td>
 					<td>
 						{{ instrument.getOwner }}
