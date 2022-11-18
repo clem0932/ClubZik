@@ -50,7 +50,7 @@ class UserFixtures extends Fixture
             'ROLE_ADMIN',
         ];
         yield [
-            'Alix',
+            'Robert',
             'mdp',
             'ROLE_USER',
         ];

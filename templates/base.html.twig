@@ -7,13 +7,13 @@
 			{% endblock %}
 		</title>
 		<link
-		rel="icon" type="image/x-icon" href="../images/favicon.ico">
+		rel="icon" type="image/x-icon" href="{{ asset('favicon.ico', 'images') }}">
 		{# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
 		{% block stylesheets %}
 			<!-- Core theme CSS (includes Bootstrap)-->
 			<link href="{{ asset('css/styles.css', 'startbootstrap') }}" rel="stylesheet">
 		{% endblock %}
-
+		{% block customImports %}{% endblock %}
 		{% block javascripts %}
 			<!-- Bootstrap core JS-->
 			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>

@@ -22,6 +22,10 @@ framework:
         packages:
             startbootstrap:
                 base_path: '/startbootstrap-bare-gh-pages'
+            customAssets:
+                base_path: '/customAssets'
+            images:
+                base_path: '/images'
 
 
 when@test:

@@ -23,7 +23,11 @@
 						{{ instrument.getId }}
 					</td>
 					<td>
-						{{ instrument.getName }}
+						{% if instrument.getName == "Rick" %}
+							<a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Rick</a>
+						{% else %}
+							{{ instrument.getName }}
+						{% endif %}
 					</td>
 					<td>
 						{% if instrument.getReservation is empty %}

@@ -3,13 +3,25 @@
 {% block title %}Edit Instrument
 {% endblock %}
 
+{% block customImports %}
+	<link href="{{ asset('css/styles.css', 'customAssets') }}" rel="stylesheet">
+	<script src="{{ asset('js/script.js', 'customAssets') }}" defer></script>
+{% endblock %}
+
 {% block main %}
 	<h1>Edit Instrument</h1>
 
 	{{ include('instrument/_form.html.twig', {'button_label': 'Update'}) }}
 	{% if is_granted('ROLE_ADMIN') %}
-		{{ include('instrument/_delete_form.html.twig') }}
+		{% if instrument.getName == "Batterie" %}
+			<span id="customDelButton" class="btn btn-danger" style="position: absolute">Delete</span><br>
+		{% else %}
+			{{ include('instrument/_delete_form.html.twig') }}
+		{% endif %}
 	{% endif %}
-
-	<a href="{{ path('instrument_list') }}" class="btn btn-dark" style="margin-top:10px">back to list</a>
+	{% if instrument.getName == "Batterie" %}
+		<a href="{{ path('instrument_list') }}" class="btn btn-dark" style="margin-top:23px">back to list</a>
+	{% else %}
+		<a href="{{ path('instrument_list') }}" class="btn btn-dark" style="margin-top:10px">back to list</a>
+	{% endif %}
 {% endblock %}
